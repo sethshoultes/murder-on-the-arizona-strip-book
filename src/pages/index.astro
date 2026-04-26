@@ -1,0 +1,33 @@
+---
+import '../styles/global.css';
+import { getCollection } from 'astro:content';
+
+const chapters = (await getCollection('chapters'))
+  .sort((a, b) => a.data.number - b.data.number);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Murder on the Arizona Strip</title>
+</head>
+<body>
+  <div class="cover">
+    <figure class="cover-art">
+      <img src={`${base}/illustrations/cover.png`} alt="Pen-and-ink book cover: a deputy at the rim of a desert wash with two sandstone knolls behind, MURDER ON THE ARIZONA STRIP set in bold serif at the top." />
+    </figure>
+    <p class="subtitle">St. George, Utah, and the Vermilion Cliffs of northern Arizona, 2026.</p>
+    <ul class="toc">
+      {chapters.map((c) => (
+        <li>
+          <a href={`${base}/chapter/${c.slug}/`}>
+            <span><span class="num">Ch {c.data.number}</span> &nbsp; {c.data.title}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</body>
+</html>

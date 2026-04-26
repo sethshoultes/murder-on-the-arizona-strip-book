@@ -1,0 +1,256 @@
+/* ---------- Reset and base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; }
+body { margin: 0; padding: 0; }
+img, video { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+/* ---------- Tokens ---------- */
+:root {
+  --color-bg: #f6f3ec;
+  --color-text: #1f1d1a;
+  --color-muted: #6b6760;
+  --color-accent: #2a2826;
+  --color-rule: #c8c2b6;
+
+  --font-prose: "Iowan Old Style", "Charter", "Constantia", Georgia, serif;
+  --font-meta: "InterVariable", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --measure: 32rem;
+  --leading: 1.7;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --space-6: 6rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #11100e;
+    --color-text: #ebe6dc;
+    --color-muted: #8a857c;
+    --color-accent: #f1ece1;
+    --color-rule: #2c2926;
+  }
+}
+
+/* ---------- Page frame ---------- */
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-prose);
+  font-size: 18px;
+  line-height: var(--leading);
+}
+
+main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-3) var(--space-6);
+}
+
+@media (max-width: 600px) {
+  main { padding: var(--space-5) var(--space-3) var(--space-5); }
+  body { font-size: 17px; }
+}
+
+/* ---------- Typography ---------- */
+h1, h2, h3 {
+  font-family: var(--font-prose);
+  font-weight: normal;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+h1.chapter-number {
+  font-family: var(--font-meta);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-muted);
+  margin-bottom: var(--space-1);
+}
+
+h1.chapter-title {
+  font-size: 2.25rem;
+  line-height: 1.15;
+  margin-bottom: var(--space-4);
+}
+
+.epigraph {
+  font-style: italic;
+  color: var(--color-muted);
+  margin-bottom: var(--space-4);
+  padding-left: var(--space-2);
+  border-left: 1px solid var(--color-rule);
+}
+
+article p {
+  margin: 0 0 1.2em;
+  text-indent: 1.6em;
+  hyphens: auto;
+}
+
+article p:first-of-type,
+article p.first,
+.epigraph + p,
+article > h2 + p,
+article > .illustration + p,
+article > .clip-loop + p {
+  text-indent: 0;
+}
+
+article p:first-of-type::first-letter {
+  font-size: 3.4em;
+  float: left;
+  line-height: 0.9;
+  margin: 0.05em 0.08em -0.1em 0;
+  font-weight: 500;
+}
+
+article h2 {
+  font-size: 1.5rem;
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+hr.scene-break {
+  border: 0;
+  text-align: center;
+  margin: var(--space-3) 0;
+  color: var(--color-muted);
+}
+hr.scene-break::before {
+  content: "✦ ✦ ✦";
+  letter-spacing: 1em;
+  font-size: 0.7em;
+}
+
+/* ---------- Illustrations and clips ---------- */
+.illustration, .clip-loop {
+  margin: var(--space-4) calc(-1 * var(--space-2));
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 900ms ease-out, transform 900ms ease-out;
+}
+
+.illustration.is-visible, .clip-loop.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.illustration img, .clip-loop video {
+  width: 100%;
+  border-radius: 2px;
+  background: var(--color-rule);
+}
+
+.illustration figcaption, .clip-loop figcaption {
+  font-family: var(--font-meta);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-muted);
+  margin-top: var(--space-1);
+  text-align: center;
+}
+
+@media (min-width: 900px) {
+  .illustration, .clip-loop {
+    margin: var(--space-4) calc(-1 * var(--space-4));
+  }
+}
+
+/* ---------- Reading progress bar ---------- */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  z-index: 100;
+}
+.progress-bar {
+  height: 100%;
+  width: 0;
+  background: var(--color-accent);
+  transition: width 80ms linear;
+}
+
+/* ---------- Header / footer ---------- */
+.book-header {
+  font-family: var(--font-meta);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-muted);
+  text-align: center;
+  margin-bottom: var(--space-5);
+}
+.book-header a:hover { color: var(--color-text); }
+
+.chapter-nav {
+  margin-top: var(--space-6);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-rule);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-meta);
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+.chapter-nav a:hover { color: var(--color-text); }
+
+/* ---------- Cover (index page) ---------- */
+.cover {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-3) var(--space-6);
+  text-align: center;
+}
+.cover-art {
+  margin: 0 auto var(--space-4);
+  max-width: 26rem;
+}
+.cover-art img {
+  width: 100%;
+  border-radius: 2px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  .cover-art img {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  }
+}
+.cover .title {
+  font-size: 3rem;
+  line-height: 1.05;
+  margin: var(--space-3) 0 var(--space-2);
+}
+.cover .subtitle {
+  font-style: italic;
+  color: var(--color-muted);
+  margin-bottom: var(--space-5);
+}
+.toc { list-style: none; padding: 0; margin: 0; text-align: left; }
+.toc li {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+.toc li a { display: flex; justify-content: space-between; gap: var(--space-2); }
+.toc .num {
+  font-family: var(--font-meta);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-muted);
+}
+.toc li a:hover { color: var(--color-accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .illustration, .clip-loop { transition: none; opacity: 1; transform: none; }
+}
